@@ -22,11 +22,15 @@ bool* randomBoolArray() {
     return arr;
 }
 
-double f(bool sol_vector[]) {
+double value (bool sol_vector[]) {
     double res = 0, x;
     for(int i=7; i>=0; i--)
-        res += pow(2,i)*(int)sol_vector[i];
+        if(sol_vector[i]) res += pow(2,i);
     x = res*8/255;
+    return x;
+}
+double f(bool sol_vector[]) {
+    double x =  value(sol_vector);
     return x*(8-x);
 }
 
@@ -35,7 +39,7 @@ void display_population(vector <bool*> chromosome) {
         for(int j=0; j<8; j++) {
             cout << chromosome[i][j] << " ";
         }
-        cout << "   ---> f(x)=" << f(chromosome[i]) << endl;
+        cout << " = " << value(chromosome[i]) << " ---> f(x)=" << f(chromosome[i]) << endl;
     }
 
 }
@@ -45,6 +49,8 @@ vector<bool *> selection (vector <bool*> chromosome) {
     double total_fitness=0;
     int i, j, k=-1;
     int n = chromosome.size();
+
+    cout << n;
 
     vector <bool*> new_gen_chromosome;
 
@@ -62,7 +68,7 @@ vector<bool *> selection (vector <bool*> chromosome) {
     for(i=1; i<n; i++) {
         r_wheel[i] = r_wheel[i-1] + f(chromosome[i])/total_fitness;
     }
-    
+
     //Elite Gene Selection
     new_gen_chromosome.push_back(chromosome[j]);
 
@@ -70,13 +76,13 @@ vector<bool *> selection (vector <bool*> chromosome) {
         double r = rand()/RAND_MAX;
         for(j=0; j<n; j++) {
             if(r<r_wheel[i]) {
-                j = i;
+                k = i;
             }
             else {
                 break;
             }
         }
-        new_gen_chromosome.push_back(chromosome[j]);
+        new_gen_chromosome.push_back(chromosome[k]);
     }
 
     return new_gen_chromosome;
@@ -88,7 +94,6 @@ vector<bool*> crossover (vector<bool*> chromosome) {
     bool *arr;
 
     bool ** parent = (bool **) calloc(2,sizeof(bool*));
-
 
     for(i=0, j=0, k=0;;i=(i+1)%VECTOR_LENGTH) {
         if(i==0) arr = randomBoolArray();
@@ -158,8 +163,8 @@ int main () {
     }
 
     display_population(chromosome);
-
     for(int i=0; i<NUMBER_OF_ITERATIONS; i++) {
+        cout << "-----------------"<<endl;
         chromosome = selection(chromosome);
         chromosome = crossover(chromosome);
         chromosome = mutation(chromosome);
