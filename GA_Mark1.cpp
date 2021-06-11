@@ -1,5 +1,6 @@
 #include<iostream>
 #include<cmath>
+#include<time.h>
 
 using namespace std;
 
@@ -26,6 +27,14 @@ void display_population(bool chromosome[POPULATION_SIZE][8]) {
 int main () {
 
     bool chromosome[POPULATION_SIZE][8];
+
+    //initialize population
+    srand(time(0));
+    for(int i=0; i<POPULATION_SIZE; i++) {
+        for(int j=0; j<8; j++) {
+            cout <<  rand();
+        }
+    }
 
     display_population(chromosome);
 
