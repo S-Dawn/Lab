@@ -164,11 +164,8 @@ int main () {
     for(int i=0; i<NUMBER_OF_ITERATIONS; i++) {
         cout << "-----------------"<<endl;
         chromosome = selection(chromosome);
-        cout << "sel";
         chromosome = crossover(chromosome);
-        cout << "sel";
         chromosome = mutation(chromosome);
-        cout << "sel";
         display_population(chromosome);
     }
 
