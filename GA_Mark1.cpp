@@ -6,6 +6,10 @@ using namespace std;
 
 #define POPULATION_SIZE 4
 
+bool randomBool() {
+    return 0 + (rand() % (1 - 0 + 1)) == 1;
+}
+
 double f(bool sol_vector[]) {
     double res = 0, x;
     for(int i=7; i>=0; i--)
@@ -19,20 +23,20 @@ void display_population(bool chromosome[POPULATION_SIZE][8]) {
         for(int j=0; j<8; j++) {
             cout << chromosome[i][j] << " ";
         }
-        cout << endl;
+        cout << "   ---> f(x)=" << f(chromosome[i]) << endl;
     }
 
 }
+
 
 int main () {
 
     bool chromosome[POPULATION_SIZE][8];
 
     //initialize population
-    srand(time(0));
     for(int i=0; i<POPULATION_SIZE; i++) {
         for(int j=0; j<8; j++) {
-            cout <<  rand();
+            chromosome[i][j] = randomBool();
         }
     }
 
